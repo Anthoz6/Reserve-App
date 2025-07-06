@@ -84,5 +84,4 @@ public class ReservappApplication {
 			userRepository.saveAll(List.of(userEntityAdmin, userEntityProvider, userEntityCustomer, userEntityAnthony));
 		};
 	}
-
 }

@@ -2,14 +2,20 @@ version: '3'
 
 services:
   reserv-app:
-    build: ./reservapp-backEnd
-    mem_limit: 512m
+    build: .
     ports:
       - "8080:8080"
     environment:
       DB_HOST: jdbc:mysql://reserv_app:3306/reservapp?createDatabaseIfNotExist=true&serverTimezone=UTC
       DB_USER: root
       DB_PASSWORD: 1234
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_USER_GENERATOR: ${JWT_USER_GENERATOR}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+
     restart: always
     depends_on:
       reserv_app:
