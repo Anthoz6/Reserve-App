@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ReservApp Frontend
 
-## Getting Started
+Frontend de la aplicación de reservas de servicios desarrollado con Next.js, TypeScript y Tailwind CSS.
 
-First, run the development server:
+## 🚀 Tecnologías
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework**: Next.js 15 con App Router
+- **Lenguaje**: TypeScript
+- **Estilos**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **HTTP Client**: Axios con interceptores JWT
+- **Gestión de Estado**: React Context (próximamente)
+- **Formularios**: React Hook Form + Zod
+- **Notificaciones**: Sonner
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── app/                 # App Router de Next.js
+├── components/          # Componentes reutilizables
+│   ├── ui/             # Componentes base de shadcn/ui
+│   ├── auth/           # Componentes de autenticación
+│   ├── services/       # Componentes de servicios
+│   └── reservations/   # Componentes de reservas
+├── lib/
+│   ├── api/            # Servicios API y cliente HTTP
+│   ├── auth/           # Utilidades de autenticación
+│   └── utils/          # Utilidades generales
+├── types/              # Interfaces TypeScript
+├── context/            # Contextos de React
+└── hooks/              # Custom hooks
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Configuración
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Instalación
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+```
 
-## Learn More
+### Desarrollo
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+La aplicación estará disponible en [http://localhost:4200](http://localhost:4200)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Build
 
-## Deploy on Vercel
+```bash
+pnpm build
+pnpm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔧 Estado del Proyecto
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ✅ Completado
+- **Fase 1**: Configuración base (Next.js, TypeScript, Tailwind, shadcn/ui)
+- **Fase 2**: Tipos y API base (interfaces, servicios HTTP, endpoints)
+
+### 🚧 En Desarrollo
+- **Fase 3**: Sistema de autenticación
+- **Fase 4**: Dashboard base y navegación
+
+### 📋 Próximas Fases
+- Fase 5-10: Funcionalidades específicas por rol
+
+## 🔌 API Backend
+
+El frontend se conecta a un backend Java con Spring Boot en `http://localhost:8080`.
+
+## 👥 Roles de Usuario
+
+- **ADMIN**: Gestión completa de usuarios y sistema
+- **PROVIDER**: Gestión de servicios y reservas recibidas
+- **CUSTOMER**: Reserva de servicios
