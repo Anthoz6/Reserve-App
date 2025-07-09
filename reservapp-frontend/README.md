@@ -16,20 +16,27 @@ Frontend de la aplicación de reservas de servicios desarrollado con Next.js, Ty
 ## 📁 Estructura del Proyecto
 
 ```
-src/
-├── app/                 # App Router de Next.js
-├── components/          # Componentes reutilizables
-│   ├── ui/             # Componentes base de shadcn/ui
-│   ├── auth/           # Componentes de autenticación
-│   ├── services/       # Componentes de servicios
-│   └── reservations/   # Componentes de reservas
-├── lib/
-│   ├── api/            # Servicios API y cliente HTTP
-│   ├── auth/           # Utilidades de autenticación
-│   └── utils/          # Utilidades generales
-├── types/              # Interfaces TypeScript
-├── context/            # Contextos de React
-└── hooks/              # Custom hooks
+reservapp-frontend/
+├── src/
+│   ├── app/                    # App Router (Next.js)
+│   │   ├── auth/
+│   │   ├── dashboard/
+│   │   ├── services/
+│   │   ├── reservations/
+│   │   └── layout.tsx
+│   ├── components/
+│   │   ├── ui/                 # Componentes base (Button, Input, etc.)
+│   │   ├── auth/               # Componentes de autenticación
+│   │   ├── services/           # Componentes de servicios
+│   │   └── reservations/       # Componentes de reservas
+│   ├── lib/
+│   │   ├── api/                # Configuración de API y endpoints
+│   │   ├── auth/               # Manejo de autenticación
+│   │   ├── utils/              # Utilidades
+│   │   └── validations/        # Esquemas de validación
+│   ├── types/                  # Tipos TypeScript
+│   ├── hooks/                  # Custom hooks
+│   └── context/                # Context providers
 ```
 
 ## 🛠️ Configuración
