@@ -1,5 +1,8 @@
+"use client";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/context/authContext";
+import './globals.css';
+import { Navbar } from "@/components/layout/navbar";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -7,7 +10,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Toaster />
         <AuthProvider>
-          {children}
+          <Navbar />
+          <main>{children}</main>
         </AuthProvider>
       </body>
     </html>

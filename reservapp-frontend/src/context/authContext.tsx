@@ -75,7 +75,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     deleteCookie('token', { path: '/' });
     setToken(null);
     setUser(null);
-    router.push('/auth/login');
+    router.push('/login');
   };
 
   const authContextValue: AuthContextType = {

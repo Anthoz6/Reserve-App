@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
@@ -34,12 +34,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <Card className="w-full max-w-md shadow-lg rounded-lg">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Iniciar Sesión
-          </CardTitle>
+          <div className="flex flex-col items-center">
+            <img src="/logo.svg" alt="Logo" className="h-12 mb-2" />
+            <CardTitle className="text-2xl font-bold text-primary mb-2">
+              Iniciar Sesión
+            </CardTitle>
+            <p className="text-muted-foreground text-sm">
+              Ingresa tus credenciales para acceder al sistema
+            </p>
+          </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -52,6 +58,7 @@ export default function LoginPage() {
                 onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
                 required
                 autoComplete="username"
+                className="bg-background border border-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div className="space-y-2">
@@ -63,6 +70,7 @@ export default function LoginPage() {
                 onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
                 required
                 autoComplete="current-password"
+                className="bg-background border border-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
