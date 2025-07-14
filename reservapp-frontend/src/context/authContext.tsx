@@ -7,6 +7,9 @@ import { LoginRequest } from '@/lib/api/endpoints';
 import { AuthContextType } from '@/types/auth';
 import { User } from '@/types/user';
 import { RoleEnum, Role } from '@/types/role';
+import { getCookie, setCookie, deleteCookie } from 'cookies-next';
+import { jwtDecode } from "jwt-decode";
+import { ROLE_REDIRECTS } from '@/lib/auth/route-config';
 
 // Crear el Contexto con un valor inicial undefined para detectar si se usa fuera del Provider.
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,46 +25,54 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true); // Inicia en true para verificar el token inicial
   const router = useRouter();
 
-  // Efecto para verificar el token en localStorage al cargar la app
+  // Efecto para verificar el token en cookies al cargar la app
   useEffect(() => {
-    const initializeAuth = async () => {
-      const storedToken = localStorage.getItem('jwtToken');
-      if (storedToken) {
-        try {
-            setToken(storedToken);
-        } catch (error) {
-          console.error("Token inválido o expirado. Limpiando...", error);
-          localStorage.removeItem('jwtToken');
-        }
-      }
-      setIsLoading(false);
-    };
-    initializeAuth();
+    const storedToken = getCookie('jwtToken');
+    if (storedToken) {
+      setToken(storedToken as string);
+      // Decodifica el JWT para repoblar el usuario
+      const decoded: any = jwtDecode(storedToken as string);
+      const role = decoded.role.replace("ROLE_", "") as RoleEnum;
+      setUser({
+        id: decoded.sub,
+        email: decoded.sub,
+        name: "",
+        role: { id: 0, role },
+        enabled: true,
+        accountNonExpired: true,
+        accountNonLocked: true,
+        credentialsNonExpired: true,
+      });
+    }
+    setIsLoading(false);
   }, []);
 
   // Función de Login
   const login = async (credentials: LoginRequest) => {
-    const { token, user } = await authService.login(credentials);
-    localStorage.setItem('jwtToken', token);
+    const { token } = await authService.login(credentials);
+    setCookie('jwtToken', token, { path: '/' });
     setToken(token);
-    // Adaptar el objeto user para que tenga todas las propiedades requeridas por el tipo User
+    // Decodifica el JWT para obtener los datos del usuario
+    const decoded: any = jwtDecode(token);
+    const role = decoded.role.replace("ROLE_", "") as RoleEnum;
     setUser({
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: { id: 0, role: user.role as RoleEnum },
+        id: decoded.sub,
+        email: decoded.sub,
+        name: "",
+        role: { id: 0, role },
         enabled: true,
         accountNonExpired: true,
         accountNonLocked: true,
         credentialsNonExpired: true,
     });
-    // Redirigir según el rol del usuario
-    router.push('/dashboard'); 
+    // Redirigir según el rol
+    router.push(ROLE_REDIRECTS[role] || '/dashboard');
   };
 
   // Función de Logout
   const logout = () => {
-    localStorage.removeItem('jwtToken');
+    deleteCookie('jwtToken', { path: '/' });
+    deleteCookie('token', { path: '/' });
     setToken(null);
     setUser(null);
     router.push('/auth/login');

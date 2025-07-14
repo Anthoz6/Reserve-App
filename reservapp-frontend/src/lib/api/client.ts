@@ -1,26 +1,20 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from "axios";
 import { toast } from "sonner";
+import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 // Helpers para manejo de token
 const TOKEN_KEY = "authToken";
 
-export const getAuthToken = (): string | null => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem(TOKEN_KEY);
-  }
-  return null;
+export const getAuthToken = () => {
+  return getCookie(TOKEN_KEY);
 };
 
-export const setAuthToken = (token: string): void => {
-  if (typeof window !== "undefined") {
-    localStorage.setItem(TOKEN_KEY, token);
-  }
+export const setAuthToken = (token: string) => {
+  setCookie(TOKEN_KEY, token, { path: '/' });
 };
 
-export const removeAuthToken = (): void => {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem(TOKEN_KEY);
-  }
+export const removeAuthToken = () => {
+  deleteCookie(TOKEN_KEY, { path: '/' });
 };
 
 // Configuracion base de Axios

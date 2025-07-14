@@ -1,5 +1,7 @@
 import { apiRequest, setAuthToken, removeAuthToken, getAuthToken } from "../client";
 import { API_ENDPOINTS, LoginRequest, LoginResponse } from "../endpoints";
+import { deleteCookie } from 'cookies-next';
+import { setCookie } from 'cookies-next'
 
 
 export const authService = {
@@ -12,12 +14,12 @@ export const authService = {
           API_ENDPOINTS.auth.login,
           credentials
         );
-        
-        // Guardar token automáticamente
         if (response.token) {
-          setAuthToken(response.token);
+          setCookie('token', response.token, {
+            path: '/',
+            // Opcional: maxAge, secure, sameSite, etc.
+          });
         }
-        
         return response;
       } catch (error) {
         throw error;
@@ -28,8 +30,8 @@ export const authService = {
      * Cerrar sesión
      */
 
-    async logout(): Promise<void>{
-        removeAuthToken();
+    async logout(): Promise<void> {
+      deleteCookie('token', { path: '/' });
     },
 
     /**
