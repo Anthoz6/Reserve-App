@@ -5,6 +5,7 @@ import com.anthonycorp.reservapp.User.infrastructure.model.RoleEntity;
 import com.anthonycorp.reservapp.User.infrastructure.model.UserEntity;
 import com.anthonycorp.reservapp.User.infrastructure.repository.RoleRepository;
 import com.anthonycorp.reservapp.User.infrastructure.repository.UserRepository;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +19,11 @@ import java.util.List;
 public class ReservappApplication {
 
 	public static void main(String[] args) {
+		Dotenv dotenv = Dotenv.load();
+		dotenv.entries().forEach(entry ->
+				System.setProperty(entry.getKey(), entry.getValue())
+		);
+
 		SpringApplication.run(ReservappApplication.class, args);
 	}
 
