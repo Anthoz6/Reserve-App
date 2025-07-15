@@ -34,17 +34,21 @@ public class UserEntity implements UserDetails {
     @JoinColumn(name = "role_id", nullable = false)
     private RoleEntity roleEntity;
 
+    @Builder.Default
     @Column(name = "is_enabled")
-    private boolean enabled;
+    private boolean enabled = true;
 
+    @Builder.Default
     @Column(name = "account_non_expired")
-    private boolean accountNonExpired;
+    private boolean accountNonExpired = true;
 
+    @Builder.Default
     @Column(name = "account_non_locked")
-    private boolean accountNonLocked;
+    private boolean accountNonLocked = true;
 
+    @Builder.Default
     @Column(name = "credentials_non_expired")
-    private boolean credentialsNonExpired;
+    private boolean credentialsNonExpired = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
