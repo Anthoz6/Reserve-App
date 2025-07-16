@@ -1,7 +1,6 @@
 package com.anthonycorp.reservapp.Reservation.application.CreateReservation;
 
 import com.anthonycorp.reservapp.Mail.application.MailNotification.MailNotificationUseCase;
-import com.anthonycorp.reservapp.Mail.application.MailNotification.MailNotificationUseCaseImpl;
 import com.anthonycorp.reservapp.Mail.domain.Request.ReservationConfirmationDto;
 import com.anthonycorp.reservapp.Reservation.domain.request.CreateReservationDto;
 import com.anthonycorp.reservapp.Reservation.domain.response.ReservationResponseDto;

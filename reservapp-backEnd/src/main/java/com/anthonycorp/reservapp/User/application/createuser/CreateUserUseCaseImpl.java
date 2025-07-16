@@ -35,6 +35,5 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         userEntity.setRoleEntity(roleEntity);
         UserEntity savedUserEntity = userRepository.save(userEntity);
         return userMapper.toDto(savedUserEntity);
-
     }
 }
