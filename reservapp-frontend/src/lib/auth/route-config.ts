@@ -7,6 +7,7 @@ export const PUBLIC_ROUTES: string[] = [
   '/register',
   '/about',
   '/contact',
+  '/unauthorized',
 ]
 
 export const AUTH_ROUTES: string[] = [
@@ -28,10 +29,35 @@ export const PROTECTED_ROUTES: RouteConfig[] = [
     requiresAuth: true,
     isPublic: false,
   },
+  {
+    path: '/dashboard/admin/users/new',
+    roles: [RoleEnum.ADMIN],
+    requiresAuth: true,
+    isPublic: false,
+  },
+  {
+    path: '/dashboard/admin/users/edit',
+    roles: [RoleEnum.ADMIN],
+    requiresAuth: true,
+    isPublic: false,
+  },
+  // Protección para cualquier otra ruta bajo /dashboard/admin/*
+  {
+    path: '/dashboard/admin/*',
+    roles: [RoleEnum.ADMIN],
+    requiresAuth: true,
+    isPublic: false,
+  },
   
   // Provider routes
   {
     path: '/dashboard/provider',
+    roles: [RoleEnum.PROVIDER],
+    requiresAuth: true,
+    isPublic: false,
+  },
+  {
+    path: '/dashboard/provider/*',
     roles: [RoleEnum.PROVIDER],
     requiresAuth: true,
     isPublic: false,
@@ -46,6 +72,12 @@ export const PROTECTED_ROUTES: RouteConfig[] = [
   // Customer routes
   {
     path: '/dashboard/customer',
+    roles: [RoleEnum.CUSTOMER],
+    requiresAuth: true,
+    isPublic: false,
+  },
+  {
+    path: '/dashboard/customer/*',
     roles: [RoleEnum.CUSTOMER],
     requiresAuth: true,
     isPublic: false,

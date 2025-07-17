@@ -20,8 +20,15 @@ export const usersService = {
 
     /**
      * Actualizar informacion de un usuario (SOLO ADMIN)
+     * NOTA: Temporalmente deshabilitado debido a problemas con el backend
      */
     async updateUser(userId: number, userData: UpdateUserRequest): Promise<User> {
+        // Esta función está temporalmente comentada debido a problemas con el backend
+        // Pendiente de revisión por el equipo de backend
+        console.warn("La función updateUser está temporalmente deshabilitada");
+        throw new Error("Función deshabilitada temporalmente");
+        
+        /* Código original comentado
         try {
             const response = await apiRequest.patch<User>(
                 API_ENDPOINTS.users.update(userId),
@@ -31,6 +38,7 @@ export const usersService = {
         } catch (error) {
             throw error;
         }
+        */
     },
 
 

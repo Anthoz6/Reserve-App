@@ -60,16 +60,18 @@ export const API_ENDPOINTS = {
   }
   
   export interface CreateUserRequest {
-    email: string;
     name: string;
+    email: string;
     password: string;
-    roleId: number;
+    rol_id: number;
   }
   
   export interface UpdateUserRequest {
     name?: string;
     email?: string;
+    // Añadimos estos campos por si el backend los necesita
     enabled?: boolean;
+    rol_id?: number;
   }
   
   export interface CreateServiceRequest {
