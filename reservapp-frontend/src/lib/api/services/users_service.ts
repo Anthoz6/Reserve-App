@@ -33,27 +33,17 @@ export const usersService = {
         }
     },
 
-    /**
-    * Obtener un usuario por ID (Solo ADMIN)
-    */
-    async getUserById(userId: number): Promise<User> {
-        try {
-        const response = await apiRequest.get<User>(`${API_ENDPOINTS.users.base}/${userId}`);
-        return response;
-        } catch (error) {
-        throw error;
-        }
-    },
+
 
     /**
-     * Endpoint de prueba (Hello World)
+     * Obtener todos los usuarios (SOLO ADMIN)
      */
-    async testHello(): Promise<string> {
+    async getAllUsers(): Promise<User[]> {
         try {
-        const response = await apiRequest.get<string>(API_ENDPOINTS.users.hello);
-        return response;
+            const response = await apiRequest.get<User[]>(API_ENDPOINTS.users.getAll);
+            return response;
         } catch (error) {
-        throw error;
+            throw error;
         }
     }
 

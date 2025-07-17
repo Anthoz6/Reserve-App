@@ -7,25 +7,22 @@ export const API_ENDPOINTS = {
     
     // Usuarios
     users: {
-      base: '/users',
+      getAll: '/users',
       create: '/users',
       update: (userId: number) => `/users/${userId}`,
-      hello: '/users', // Endpoint de prueba
     },
     
     // Servicios
     services: {
-      base: '/services',
+      getAll: '/services',
       create: '/services',
+      getMyServices: '/services/me',
       update: (serviceId: number) => `/services/${serviceId}`,
       delete: (serviceId: number) => `/services/${serviceId}`,
-      getByProvider: (providerId: number) => `/services/provider/${providerId}`,
-      getAll: '/services',
     },
     
     // Reservas
     reservations: {
-      base: '/reservations',
       create: '/reservations',
       getMyReservations: '/reservations/me',
     },
