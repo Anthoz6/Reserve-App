@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Efecto para verificar el token en cookies al cargar la app
   useEffect(() => {
-    const storedToken = getCookie('jwtToken');
+    const storedToken = getCookie('authToken');
     if (storedToken) {
       setToken(storedToken as string);
       // Decodifica el JWT para repoblar el usuario
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Función de Login
   const login = async (credentials: LoginRequest) => {
     const { token } = await authService.login(credentials);
-    setCookie('jwtToken', token, { path: '/' });
+    setCookie('authToken', token, { path: '/' });
     setToken(token);
     // Decodifica el JWT para obtener los datos del usuario
     const decoded: any = jwtDecode(token);
@@ -71,8 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Función de Logout
   const logout = () => {
-    deleteCookie('jwtToken', { path: '/' });
-    deleteCookie('token', { path: '/' });
+    deleteCookie('authToken', { path: '/' });
     setToken(null);
     setUser(null);
     router.push('/login');
