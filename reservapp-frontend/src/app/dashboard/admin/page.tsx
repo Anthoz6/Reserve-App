@@ -14,7 +14,6 @@ import {
   UserIcon,
   UsersIcon,
   ShieldCheckIcon,
-  TrendingUpIcon,
   ActivityIcon,
   ArrowRightIcon,
   SettingsIcon,
@@ -102,29 +101,21 @@ function AdminDashboardContent() {
             icon={<UsersIcon className="w-5 h-5 text-chart-1" />}
             label="Total de usuarios"
             value={stats.total}
-            change="+12%"
-            changeType="positive"
           />
           <StatCard
             icon={<ShieldCheckIcon className="w-5 h-5 text-chart-2" />}
             label="Administradores"
             value={stats.byRole.ADMIN}
-            change="+2"
-            changeType="positive"
           />
           <StatCard
             icon={<UserIcon className="w-5 h-5 text-chart-3" />}
             label="Proveedores"
             value={stats.byRole.PROVIDER}
-            change="+8%"
-            changeType="positive"
           />
           <StatCard
             icon={<UserIcon className="w-5 h-5 text-chart-4" />}
             label="Clientes"
             value={stats.byRole.CUSTOMER}
-            change="+15%"
-            changeType="positive"
           />
         </div>
 
@@ -185,33 +176,15 @@ function StatCard({
   icon,
   label,
   value,
-  change,
-  changeType,
 }: {
   icon: React.ReactNode
   label: string
   value: number
-  change?: string
-  changeType?: "positive" | "negative" | "neutral"
 }) {
   return (
     <div className="bg-card border rounded-lg p-6 hover:shadow-sm transition-shadow">
       <div className="flex items-center justify-between mb-4">
         <div className="p-2 bg-muted rounded-md">{icon}</div>
-        {change && (
-          <div
-            className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
-              changeType === "positive"
-                ? "text-chart-4 bg-chart-4/10"
-                : changeType === "negative"
-                  ? "text-destructive bg-destructive/10"
-                  : "text-muted-foreground bg-muted"
-            }`}
-          >
-            <TrendingUpIcon className="w-3 h-3" />
-            {change}
-          </div>
-        )}
       </div>
       <div className="space-y-1">
         <div className="text-2xl font-semibold text-card-foreground">{value.toLocaleString()}</div>

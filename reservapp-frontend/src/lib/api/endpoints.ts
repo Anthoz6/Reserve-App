@@ -87,7 +87,7 @@ export const API_ENDPOINTS = {
   }
   
   export interface CreateReservationRequest {
-    serviceId: number;
+    service_id: number; // Backend usa SNAKE_CASE
     date: string; // ISO format
     time: string; // HH:MM:SS format
   }

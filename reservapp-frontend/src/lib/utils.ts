@@ -6,13 +6,24 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // Utilidades adicionales para el proyecto
-export const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('es-ES').format(date);
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat('es-ES', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(date);
+};
+
+export const formatTime = (timeString: string) => {
+  // Asumiendo formato HH:MM:SS
+  const [hours, minutes] = timeString.split(':');
+  return `${hours}:${minutes}`;
 };
 
 export const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',
-    currency: 'EUR'
+    currency: 'USD'
   }).format(amount);
 };
