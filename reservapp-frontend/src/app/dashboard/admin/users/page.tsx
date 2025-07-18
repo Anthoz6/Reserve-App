@@ -1,77 +1,83 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { usersService } from "@/lib/api/services/users_service"
-import type { User } from "@/types/user"
-import { RoleEnum } from "@/types/role"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import UserTable from "@/components/admin/UserTable"
-import { RoleGuard } from "@/components/auth/role-guard"
-import { PlusIcon, SearchIcon, FilterIcon, RefreshCwIcon } from "lucide-react"
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { usersService } from '@/lib/api/services/users_service';
+import type { User } from '@/types/user';
+import { RoleEnum } from '@/types/role';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import UserTable from '@/components/admin/UserTable';
+import { RoleGuard } from '@/components/auth/role-guard';
+import { PlusIcon, SearchIcon, FilterIcon, RefreshCwIcon } from 'lucide-react';
 
 export default function AdminUsersPage() {
   return (
     <RoleGuard requiredRoles={[RoleEnum.ADMIN]}>
       <AdminUsersContent />
     </RoleGuard>
-  )
+  );
 }
 
 function AdminUsersContent() {
-  const router = useRouter()
-  const [users, setUsers] = useState<User[]>([])
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [roleFilter, setRoleFilter] = useState<string>("all")
+  const router = useRouter();
+  const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState<string>('all');
 
   useEffect(() => {
-    loadUsers()
-  }, [])
+    loadUsers();
+  }, []);
 
   useEffect(() => {
-    let filtered = users
+    let filtered = users;
 
     if (searchTerm) {
       filtered = filtered.filter(
         (user) =>
           user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           user.email.toLowerCase().includes(searchTerm.toLowerCase()),
-      )
+      );
     }
 
-    if (roleFilter !== "all") {
-      filtered = filtered.filter((user) => String(user.role).toUpperCase() === roleFilter)
+    if (roleFilter !== 'all') {
+      filtered = filtered.filter((user) => String(user.role).toUpperCase() === roleFilter);
     }
 
-    setFilteredUsers(filtered)
-  }, [users, searchTerm, roleFilter])
+    setFilteredUsers(filtered);
+  }, [users, searchTerm, roleFilter]);
 
   const loadUsers = async () => {
     try {
-      setLoading(true)
-      setError(null)
-      const data = await usersService.getAllUsers()
-      setUsers(data)
+      setLoading(true);
+      setError(null);
+      const data = await usersService.getAllUsers();
+      setUsers(data);
     } catch (err) {
-      setError("Error al cargar usuarios")
-      console.error("Error loading users:", err)
+      setError('Error al cargar usuarios');
+      console.error('Error loading users:', err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleUserUpdate = (updatedUser: User) => {
-    setUsers((prev) => prev.map((u) => (u.id === updatedUser.id ? updatedUser : u)))
-  }
+    setUsers((prev) => prev.map((u) => (u.id === updatedUser.id ? updatedUser : u)));
+  };
 
   const handleUserDelete = (userId: number) => {
-    setUsers((prev) => prev.filter((u) => u.id !== userId))
-  }
+    setUsers((prev) => prev.filter((u) => u.id !== userId));
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -87,11 +93,11 @@ function AdminUsersContent() {
           </div>
           <div className="flex items-center gap-3">
             <Button variant="outline" onClick={loadUsers} disabled={loading}>
-              <RefreshCwIcon className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
+              <RefreshCwIcon className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
               Actualizar
             </Button>
             <Button
-              onClick={() => router.push("/dashboard/admin/users/new")}
+              onClick={() => router.push('/dashboard/admin/users/new')}
               className="bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               <PlusIcon className="w-4 h-4 mr-2" />
@@ -149,12 +155,12 @@ function AdminUsersContent() {
             searchTerm={searchTerm}
             roleFilter={roleFilter}
             onClearFilters={() => {
-              setSearchTerm("")
-              setRoleFilter("all")
+              setSearchTerm('');
+              setRoleFilter('all');
             }}
           />
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -23,11 +23,13 @@ export default function RecentUsersTable({ users }: RecentUsersTableProps) {
             <tr key={user.id} className="border-t last:border-b">
               <td className="py-1">{user.name}</td>
               <td className="py-1">{user.email}</td>
-              <td className="py-1"><RoleBadge role={user.role.role} /></td>
+              <td className="py-1">
+                <RoleBadge role={user.role.role} />
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
-} 
+}

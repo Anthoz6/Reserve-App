@@ -65,14 +65,17 @@ pnpm start
 ## 🔧 Estado del Proyecto
 
 ### ✅ Completado
+
 - **Fase 1**: Configuración base (Next.js, TypeScript, Tailwind, shadcn/ui)
 - **Fase 2**: Tipos y API base (interfaces, servicios HTTP, endpoints)
 
 ### 🚧 En Desarrollo
+
 - **Fase 3**: Sistema de autenticación
 - **Fase 4**: Dashboard base y navegación
 
 ### 📋 Próximas Fases
+
 - Fase 5-10: Funcionalidades específicas por rol
 
 ## 🔌 API Backend

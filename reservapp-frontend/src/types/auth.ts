@@ -1,5 +1,5 @@
-import { User } from "./user";
-import { LoginRequest } from "@/lib/api/endpoints";
+import { User } from './user';
+import { LoginRequest } from '@/lib/api/endpoints';
 
 // Tipos para el payload del token JWT que esperas del backend.
 export interface JwtPayload {

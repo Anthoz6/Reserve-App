@@ -14,4 +14,4 @@ export default function RoleBadge({ role }: { role: string }) {
       {role}
     </span>
   );
-} 
+}

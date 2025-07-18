@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 // Utilidades adicionales para el proyecto
@@ -11,7 +11,7 @@ export const formatDate = (dateString: string) => {
   return new Intl.DateTimeFormat('es-ES', {
     year: 'numeric',
     month: '2-digit',
-    day: '2-digit'
+    day: '2-digit',
   }).format(date);
 };
 
@@ -24,6 +24,6 @@ export const formatTime = (timeString: string) => {
 export const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',
-    currency: 'USD'
+    currency: 'USD',
   }).format(amount);
 };

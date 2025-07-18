@@ -1,12 +1,6 @@
-import {
-  apiRequest,
-  setAuthToken,
-  removeAuthToken,
-  getAuthToken,
-} from "../client";
-import { API_ENDPOINTS, LoginRequest, LoginResponse } from "../endpoints";
-import { deleteCookie } from "cookies-next";
-import { setCookie } from "cookies-next";
+import { apiRequest, getAuthToken } from '../client';
+import { API_ENDPOINTS, LoginRequest, LoginResponse } from '../endpoints';
+import { deleteCookie } from 'cookies-next';
 
 export const authService = {
   /**
@@ -14,10 +8,7 @@ export const authService = {
    */
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     try {
-      const response = await apiRequest.post<LoginResponse>(
-        API_ENDPOINTS.auth.login,
-        credentials
-      );
+      const response = await apiRequest.post<LoginResponse>(API_ENDPOINTS.auth.login, credentials);
       // No establecemos la cookie aquí, ya que se maneja en el AuthContext
       return response;
     } catch (error) {
@@ -30,7 +21,7 @@ export const authService = {
    */
 
   async logout(): Promise<void> {
-    deleteCookie("authToken", { path: "/" });
+    deleteCookie('authToken', { path: '/' });
   },
 
   /**

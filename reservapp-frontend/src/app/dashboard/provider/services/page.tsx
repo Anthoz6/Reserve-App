@@ -1,30 +1,30 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { RoleGuard } from "@/components/auth/role-guard"
-import { RoleEnum } from "@/types/role"
-import { servicesService } from "@/lib/api/services/services_service"
-import { Service } from "@/types/service"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { LoadingSpinner } from "@/components/ui/loading"
-import { toast } from "sonner"
-import { 
-  PlusIcon, 
-  SearchIcon, 
-  EditIcon, 
-  TrashIcon, 
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { RoleGuard } from '@/components/auth/role-guard';
+import { RoleEnum } from '@/types/role';
+import { servicesService } from '@/lib/api/services/services_service';
+import { Service } from '@/types/service';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { LoadingSpinner } from '@/components/ui/loading';
+import { toast } from 'sonner';
+import {
+  PlusIcon,
+  SearchIcon,
+  EditIcon,
+  TrashIcon,
   RefreshCwIcon,
-  MoreHorizontalIcon
-} from "lucide-react"
+  MoreHorizontalIcon,
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,32 +34,35 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from '@/components/ui/alert-dialog';
 
 export default function ProviderServicesPage() {
   return (
     <RoleGuard requiredRoles={[RoleEnum.PROVIDER]}>
       <ProviderServicesContent />
     </RoleGuard>
-  )
+  );
 }
 
 function ProviderServicesContent() {
-  const router = useRouter()
-  const [services, setServices] = useState<Service[]>([])
-  const [filteredServices, setFilteredServices] = useState<Service[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; service: Service | null }>({
+  const router = useRouter();
+  const [services, setServices] = useState<Service[]>([]);
+  const [filteredServices, setFilteredServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [deleteDialog, setDeleteDialog] = useState<{
+    open: boolean;
+    service: Service | null;
+  }>({
     open: false,
     service: null,
-  })
-  const [actionLoading, setActionLoading] = useState<number | null>(null)
+  });
+  const [actionLoading, setActionLoading] = useState<number | null>(null);
 
   useEffect(() => {
-    loadServices()
-  }, [])
+    loadServices();
+  }, []);
 
   useEffect(() => {
     if (searchTerm) {
@@ -67,47 +70,47 @@ function ProviderServicesContent() {
         services.filter(
           (service) =>
             service.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            service.description.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      )
+            service.description.toLowerCase().includes(searchTerm.toLowerCase()),
+        ),
+      );
     } else {
-      setFilteredServices(services)
+      setFilteredServices(services);
     }
-  }, [services, searchTerm])
+  }, [services, searchTerm]);
 
   const loadServices = async () => {
     try {
-      setLoading(true)
-      setError(null)
-      const data = await servicesService.getMyServices()
-      setServices(data)
+      setLoading(true);
+      setError(null);
+      const data = await servicesService.getMyServices();
+      setServices(data);
     } catch (err) {
-      setError("Error al cargar los servicios")
-      console.error("Error loading services:", err)
+      setError('Error al cargar los servicios');
+      console.error('Error loading services:', err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleDeleteService = async () => {
-    if (!deleteDialog.service) return
+    if (!deleteDialog.service) return;
 
     try {
-      setActionLoading(deleteDialog.service.id)
-      await servicesService.deleteService(deleteDialog.service.id)
-      toast.success("Servicio eliminado correctamente")
-      setServices((prev) => prev.filter((s) => s.id !== deleteDialog.service?.id))
-      setDeleteDialog({ open: false, service: null })
+      setActionLoading(deleteDialog.service.id);
+      await servicesService.deleteService(deleteDialog.service.id);
+      toast.success('Servicio eliminado correctamente');
+      setServices((prev) => prev.filter((s) => s.id !== deleteDialog.service?.id));
+      setDeleteDialog({ open: false, service: null });
     } catch (err) {
-      toast.error("Error al eliminar el servicio")
-      console.error("Error deleting service:", err)
+      toast.error('Error al eliminar el servicio');
+      console.error('Error deleting service:', err);
     } finally {
-      setActionLoading(null)
+      setActionLoading(null);
     }
-  }
+  };
 
   if (loading) {
-    return <LoadingSpinner />
+    return <LoadingSpinner />;
   }
 
   return (
@@ -117,8 +120,8 @@ function ProviderServicesContent() {
           <h1 className="text-3xl font-bold mb-2">Mis Servicios</h1>
           <p className="text-muted-foreground">Gestiona los servicios que ofreces</p>
         </div>
-        <Button 
-          onClick={() => router.push("/dashboard/provider/services/new")}
+        <Button
+          onClick={() => router.push('/dashboard/provider/services/new')}
           className="bg-primary text-primary-foreground hover:bg-primary/90"
         >
           <PlusIcon className="w-4 h-4 mr-2" />
@@ -139,7 +142,7 @@ function ProviderServicesContent() {
             />
           </div>
           <Button variant="outline" onClick={loadServices} disabled={loading}>
-            <RefreshCwIcon className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
+            <RefreshCwIcon className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
             Actualizar
           </Button>
         </div>
@@ -162,7 +165,7 @@ function ProviderServicesContent() {
             <>
               <h3 className="text-lg font-medium mb-2">No se encontraron servicios</h3>
               <p className="text-muted-foreground mb-6">Intenta con otra búsqueda</p>
-              <Button variant="outline" onClick={() => setSearchTerm("")}>
+              <Button variant="outline" onClick={() => setSearchTerm('')}>
                 Limpiar búsqueda
               </Button>
             </>
@@ -170,7 +173,7 @@ function ProviderServicesContent() {
             <>
               <h3 className="text-lg font-medium mb-2">No tienes servicios creados</h3>
               <p className="text-muted-foreground mb-6">Comienza creando tu primer servicio</p>
-              <Button onClick={() => router.push("/dashboard/provider/services/new")}>
+              <Button onClick={() => router.push('/dashboard/provider/services/new')}>
                 <PlusIcon className="w-4 h-4 mr-2" />
                 Crear Servicio
               </Button>
@@ -186,15 +189,24 @@ function ProviderServicesContent() {
             <table className="w-full">
               <thead>
                 <tr className="border-b bg-muted/30">
-                  <th className="text-left py-4 px-6 font-medium text-muted-foreground">Servicio</th>
-                  <th className="text-left py-4 px-6 font-medium text-muted-foreground">Descripción</th>
+                  <th className="text-left py-4 px-6 font-medium text-muted-foreground">
+                    Servicio
+                  </th>
+                  <th className="text-left py-4 px-6 font-medium text-muted-foreground">
+                    Descripción
+                  </th>
                   <th className="text-left py-4 px-6 font-medium text-muted-foreground">Precio</th>
-                  <th className="text-right py-4 px-6 font-medium text-muted-foreground">Acciones</th>
+                  <th className="text-right py-4 px-6 font-medium text-muted-foreground">
+                    Acciones
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {filteredServices.map((service) => (
-                  <tr key={service.id} className="border-b last:border-b-0 hover:bg-muted/20 transition-colors">
+                  <tr
+                    key={service.id}
+                    className="border-b last:border-b-0 hover:bg-muted/20 transition-colors"
+                  >
                     <td className="py-4 px-6">
                       <div className="font-medium">{service.title}</div>
                     </td>
@@ -210,17 +222,34 @@ function ProviderServicesContent() {
                       <div className="flex items-center justify-end">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0" disabled={actionLoading === service.id}>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 w-8 p-0"
+                              disabled={actionLoading === service.id}
+                            >
                               <MoreHorizontalIcon className="w-4 h-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-48">
-                            <DropdownMenuItem onClick={() => router.push(`/dashboard/provider/services/edit?id=${service.id}`)}>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                router.push(`/dashboard/provider/services/${service.id}`)
+                              }
+                            >
+                              <EditIcon className="w-4 h-4 mr-2" />
+                              Ver detalles
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                router.push(`/dashboard/provider/services/edit?id=${service.id}`)
+                              }
+                            >
                               <EditIcon className="w-4 h-4 mr-2" />
                               Editar servicio
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem 
+                            <DropdownMenuItem
                               onClick={() => setDeleteDialog({ open: true, service })}
                               className="text-destructive focus:text-destructive"
                             >
@@ -240,12 +269,15 @@ function ProviderServicesContent() {
       )}
 
       {/* Delete confirmation dialog */}
-      <AlertDialog open={deleteDialog.open} onOpenChange={(open) => setDeleteDialog({ open, service: null })}>
+      <AlertDialog
+        open={deleteDialog.open}
+        onOpenChange={(open) => setDeleteDialog({ open, service: null })}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>¿Eliminar servicio?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Se eliminará permanentemente el servicio{" "}
+              Esta acción no se puede deshacer. Se eliminará permanentemente el servicio{' '}
               <strong>{deleteDialog.service?.title}</strong> y todos sus datos asociados.
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -256,11 +288,11 @@ function ProviderServicesContent() {
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               disabled={actionLoading !== null}
             >
-              {actionLoading === deleteDialog.service?.id ? "Eliminando..." : "Eliminar servicio"}
+              {actionLoading === deleteDialog.service?.id ? 'Eliminando...' : 'Eliminar servicio'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  )
+  );
 }

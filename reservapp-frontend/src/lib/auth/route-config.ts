@@ -1,5 +1,5 @@
-import { RoleEnum } from '@/types/role'
-import { RouteConfig } from '@/types/route'
+import { RoleEnum } from '@/types/role';
+import { RouteConfig } from '@/types/route';
 
 export const PUBLIC_ROUTES: string[] = [
   '/',
@@ -8,12 +8,9 @@ export const PUBLIC_ROUTES: string[] = [
   '/about',
   '/contact',
   '/unauthorized',
-]
+];
 
-export const AUTH_ROUTES: string[] = [
-  '/login',
-  '/register',
-]
+export const AUTH_ROUTES: string[] = ['/login', '/register'];
 
 export const PROTECTED_ROUTES: RouteConfig[] = [
   // Admin routes
@@ -48,7 +45,7 @@ export const PROTECTED_ROUTES: RouteConfig[] = [
     requiresAuth: true,
     isPublic: false,
   },
-  
+
   // Provider routes
   {
     path: '/dashboard/provider',
@@ -68,7 +65,7 @@ export const PROTECTED_ROUTES: RouteConfig[] = [
     requiresAuth: true,
     isPublic: false,
   },
-  
+
   // Customer routes
   {
     path: '/dashboard/customer',
@@ -88,7 +85,7 @@ export const PROTECTED_ROUTES: RouteConfig[] = [
     requiresAuth: true,
     isPublic: false,
   },
-  
+
   // Shared protected routes
   {
     path: '/dashboard',
@@ -103,10 +100,10 @@ export const PROTECTED_ROUTES: RouteConfig[] = [
     requiresAuth: true,
     isPublic: false,
   },
-]
+];
 
 export const ROLE_REDIRECTS: Record<RoleEnum, string> = {
   [RoleEnum.ADMIN]: '/dashboard/admin',
   [RoleEnum.PROVIDER]: '/dashboard/provider',
   [RoleEnum.CUSTOMER]: '/dashboard/customer',
-}
+};

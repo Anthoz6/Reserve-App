@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 // Componente de loading personalizado
 export const LoadingSpinner = () => {

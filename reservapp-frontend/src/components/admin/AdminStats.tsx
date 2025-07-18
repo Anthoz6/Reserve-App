@@ -21,4 +21,4 @@ export default function AdminStats({ total, byRole }: AdminStatsProps) {
       ))}
     </div>
   );
-} 
+}

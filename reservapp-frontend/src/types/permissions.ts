@@ -1,14 +1,14 @@
-import { RoleEnum } from './role'
+import { RoleEnum } from './role';
 
 export interface Permission {
-  resource: string
-  action: string
-  roles: RoleEnum[]
+  resource: string;
+  action: string;
+  roles: RoleEnum[];
 }
 
 export interface UserPermissions {
-  role: RoleEnum
-  permissions: Permission[]
+  role: RoleEnum;
+  permissions: Permission[];
 }
 
 export const PERMISSIONS = {
@@ -30,4 +30,4 @@ export const PERMISSIONS = {
     UPDATE: 'reservations:update',
     DELETE: 'reservations:delete',
   },
-} as const
+} as const;

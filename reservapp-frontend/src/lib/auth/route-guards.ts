@@ -1,16 +1,11 @@
-import { MiddlewareContext, RouteProtection } from "@/types/route";
-import {
-  PUBLIC_ROUTES,
-  AUTH_ROUTES,
-  PROTECTED_ROUTES,
-  ROLE_REDIRECTS,
-} from "./route-config";
-import { isTokenExpired } from "./auth-utils";
+import { MiddlewareContext, RouteProtection } from '@/types/route';
+import { PUBLIC_ROUTES, AUTH_ROUTES, PROTECTED_ROUTES, ROLE_REDIRECTS } from './route-config';
+import { isTokenExpired } from './auth-utils';
 
 export const isPublicRoute = (pathname: string): boolean => {
   return PUBLIC_ROUTES.some((route) => {
     if (route === pathname) return true;
-    if (route.endsWith("*")) {
+    if (route.endsWith('*')) {
       const basePath = route.slice(0, -1);
       return pathname.startsWith(basePath);
     }
@@ -25,7 +20,7 @@ export const isAuthRoute = (pathname: string): boolean => {
 export const findProtectedRoute = (pathname: string) => {
   return PROTECTED_ROUTES.find((route) => {
     if (route.path === pathname) return true;
-    if (route.path.endsWith("*")) {
+    if (route.path.endsWith('*')) {
       const basePath = route.path.slice(0, -1);
       return pathname.startsWith(basePath);
     }
@@ -33,9 +28,7 @@ export const findProtectedRoute = (pathname: string) => {
   });
 };
 
-export const checkRouteProtection = (
-  context: MiddlewareContext
-): RouteProtection => {
+export const checkRouteProtection = (context: MiddlewareContext): RouteProtection => {
   const { pathname, token, user } = context;
 
   // 1. Rutas públicas - siempre permitidas
@@ -48,8 +41,8 @@ export const checkRouteProtection = (
     if (token && !isTokenExpired(token) && user) {
       return {
         allowed: false,
-        redirectTo: ROLE_REDIRECTS[user.role] || "/dashboard",
-        reason: "unauthorized",
+        redirectTo: ROLE_REDIRECTS[user.role] || '/dashboard',
+        reason: 'unauthorized',
       };
     }
     return { allowed: true };
@@ -62,8 +55,8 @@ export const checkRouteProtection = (
     if (!token) {
       return {
         allowed: false,
-        redirectTo: "/login",
-        reason: "unauthorized",
+        redirectTo: '/login',
+        reason: 'unauthorized',
       };
     }
 
@@ -71,8 +64,8 @@ export const checkRouteProtection = (
     if (isTokenExpired(token)) {
       return {
         allowed: false,
-        redirectTo: "/login",
-        reason: "token_expired",
+        redirectTo: '/login',
+        reason: 'token_expired',
       };
     }
 
@@ -80,8 +73,8 @@ export const checkRouteProtection = (
     if (!user) {
       return {
         allowed: false,
-        redirectTo: "/login",
-        reason: "unauthorized",
+        redirectTo: '/login',
+        reason: 'unauthorized',
       };
     }
 
@@ -90,18 +83,18 @@ export const checkRouteProtection = (
       if (!protectedRoute.roles.includes(user.role)) {
         return {
           allowed: false,
-          redirectTo: "/unauthorized",
-          reason: "invalid_role",
+          redirectTo: '/unauthorized',
+          reason: 'invalid_role',
         };
       }
     }
 
     // Manejar redirección especial para /dashboard
-    if (protectedRoute.redirectTo === "/dashboard/redirect") {
+    if (protectedRoute.redirectTo === '/dashboard/redirect') {
       return {
         allowed: false,
-        redirectTo: ROLE_REDIRECTS[user.role] || "/dashboard",
-        reason: "unauthorized",
+        redirectTo: ROLE_REDIRECTS[user.role] || '/dashboard',
+        reason: 'unauthorized',
       };
     }
 
@@ -112,8 +105,8 @@ export const checkRouteProtection = (
   if (!token || isTokenExpired(token)) {
     return {
       allowed: false,
-      redirectTo: "/login",
-      reason: "unauthorized",
+      redirectTo: '/login',
+      reason: 'unauthorized',
     };
   }
 

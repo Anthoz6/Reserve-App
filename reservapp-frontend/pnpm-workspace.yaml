@@ -1,4 +1,6 @@
 onlyBuiltDependencies:
-  - '@tailwindcss/oxide'
+  - "@tailwindcss/oxide"
+  - eslint-config-prettier
+  - eslint-plugin-prettier
   - sharp
   - unrs-resolver

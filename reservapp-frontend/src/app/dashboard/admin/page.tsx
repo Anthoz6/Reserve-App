@@ -1,15 +1,14 @@
-"use client"
+'use client';
 
-import type React from "react"
-import type { User } from "@/types/user"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { useAuth } from "@/hooks/useAuth"
-import { RoleEnum } from "@/types/role"
-import { usersService } from "@/lib/api/services/users_service"
-import RoleBadge from "@/components/admin/RoleBadge"
-import { RoleGuard } from "@/components/auth/role-guard"
-import { Button } from "@/components/ui/button"
+import type React from 'react';
+import type { User } from '@/types/user';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { RoleEnum } from '@/types/role';
+import { usersService } from '@/lib/api/services/users_service';
+import RoleBadge from '@/components/admin/RoleBadge';
+import { RoleGuard } from '@/components/auth/role-guard';
+import { Button } from '@/components/ui/button';
 import {
   UserIcon,
   UsersIcon,
@@ -17,44 +16,44 @@ import {
   ActivityIcon,
   ArrowRightIcon,
   SettingsIcon,
-} from "lucide-react"
+} from 'lucide-react';
 
-const ROLES = [RoleEnum.ADMIN, RoleEnum.PROVIDER, RoleEnum.CUSTOMER]
+const ROLES = [RoleEnum.ADMIN, RoleEnum.PROVIDER, RoleEnum.CUSTOMER];
 
 export default function AdminDashboardPage() {
   return (
     <RoleGuard requiredRoles={[RoleEnum.ADMIN]}>
       <AdminDashboardContent />
     </RoleGuard>
-  )
+  );
 }
 
 function AdminDashboardContent() {
-  const router = useRouter()
-  const [users, setUsers] = useState<User[]>([])
-  const [loadingUsers, setLoadingUsers] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter();
+  const [users, setUsers] = useState<User[]>([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoadingUsers(true)
+    setLoadingUsers(true);
     usersService
       .getAllUsers()
       .then((data) => setUsers(data))
-      .catch(() => setError("Error al cargar usuarios"))
-      .finally(() => setLoadingUsers(false))
-  }, [])
+      .catch(() => setError('Error al cargar usuarios'))
+      .finally(() => setLoadingUsers(false));
+  }, []);
 
-  const byRole: Record<string, number> = {}
+  const byRole: Record<string, number> = {};
   ROLES.forEach((role) => {
-    byRole[role] = users.filter((u: User) => String(u.role).toUpperCase() === role).length
-  })
+    byRole[role] = users.filter((u: User) => String(u.role).toUpperCase() === role).length;
+  });
 
   const stats = {
     total: users.length,
     byRole,
-  }
+  };
 
-  const recentUsers = [...users].sort((a, b) => b.id - a.id).slice(0, 3)
+  const recentUsers = [...users].sort((a, b) => b.id - a.id).slice(0, 3);
 
   if (loadingUsers) {
     return (
@@ -64,7 +63,7 @@ function AdminDashboardContent() {
           <p className="text-muted-foreground text-sm">Cargando...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -74,7 +73,7 @@ function AdminDashboardContent() {
           <div className="text-destructive text-center">{error}</div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -84,10 +83,12 @@ function AdminDashboardContent() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div className="space-y-1">
             <h1 className="text-3xl font-semibold text-foreground">Panel de Administrador</h1>
-            <p className="text-muted-foreground">Gestiona usuarios y monitorea métricas del sistema</p>
+            <p className="text-muted-foreground">
+              Gestiona usuarios y monitorea métricas del sistema
+            </p>
           </div>
           <Button
-            onClick={() => router.push("/dashboard/admin/users")}
+            onClick={() => router.push('/dashboard/admin/users')}
             className="bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
           >
             <SettingsIcon className="w-4 h-4 mr-2" />
@@ -135,7 +136,7 @@ function AdminDashboardContent() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => router.push("/dashboard/admin/users")}
+                onClick={() => router.push('/dashboard/admin/users')}
                 className="text-muted-foreground hover:text-foreground"
               >
                 Ver todos
@@ -153,7 +154,9 @@ function AdminDashboardContent() {
                 >
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center">
-                      <span className="text-sm font-medium text-primary">{u.name.slice(0, 1).toUpperCase()}</span>
+                      <span className="text-sm font-medium text-primary">
+                        {u.name.slice(0, 1).toUpperCase()}
+                      </span>
                     </div>
                     <div>
                       <div className="font-medium text-card-foreground">{u.name}</div>
@@ -168,19 +171,11 @@ function AdminDashboardContent() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // Minimalist StatCard component
-function StatCard({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode
-  label: string
-  value: number
-}) {
+function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: number }) {
   return (
     <div className="bg-card border rounded-lg p-6 hover:shadow-sm transition-shadow">
       <div className="flex items-center justify-between mb-4">
@@ -191,5 +186,5 @@ function StatCard({
         <div className="text-sm text-muted-foreground">{label}</div>
       </div>
     </div>
-  )
+  );
 }

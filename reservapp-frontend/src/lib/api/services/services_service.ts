@@ -1,10 +1,6 @@
-import { apiRequest } from "../client";
-import {
-  API_ENDPOINTS,
-  CreateServiceRequest,
-  UpdateServiceRequest,
-} from "../endpoints";
-import { Service } from "@/types/service";
+import { apiRequest } from '../client';
+import { API_ENDPOINTS, CreateServiceRequest, UpdateServiceRequest } from '../endpoints';
+import { Service } from '@/types/service';
 
 export const servicesService = {
   /**
@@ -12,10 +8,7 @@ export const servicesService = {
    */
   async createService(serviceData: CreateServiceRequest): Promise<Service> {
     try {
-      const response = await apiRequest.post<Service>(
-        API_ENDPOINTS.services.create,
-        serviceData
-      );
+      const response = await apiRequest.post<Service>(API_ENDPOINTS.services.create, serviceData);
       return response;
     } catch (error) {
       throw error;
@@ -25,14 +18,11 @@ export const servicesService = {
   /**
    * Actualizar un servicio (Solo PROVIDER dueño)
    */
-  async updateService(
-    serviceId: number,
-    serviceData: UpdateServiceRequest
-  ): Promise<Service> {
+  async updateService(serviceId: number, serviceData: UpdateServiceRequest): Promise<Service> {
     try {
       const response = await apiRequest.patch<Service>(
         API_ENDPOINTS.services.update(serviceId),
-        serviceData
+        serviceData,
       );
       return response;
     } catch (error) {
@@ -56,9 +46,7 @@ export const servicesService = {
    */
   async getMyServices(): Promise<Service[]> {
     try {
-      const response = await apiRequest.get<Service[]>(
-        API_ENDPOINTS.services.getMyServices
-      );
+      const response = await apiRequest.get<Service[]>(API_ENDPOINTS.services.getMyServices);
       return response;
     } catch (error) {
       throw error;
@@ -70,9 +58,7 @@ export const servicesService = {
    */
   async getAllServices(): Promise<Service[]> {
     try {
-      const response = await apiRequest.get<Service[]>(
-        API_ENDPOINTS.services.getAll
-      );
+      const response = await apiRequest.get<Service[]>(API_ENDPOINTS.services.getAll);
       return response;
     } catch (error) {
       throw error;
