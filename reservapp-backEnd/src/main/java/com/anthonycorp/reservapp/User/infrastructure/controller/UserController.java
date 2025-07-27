@@ -1,6 +1,7 @@
 package com.anthonycorp.reservapp.User.infrastructure.controller;
 
 import com.anthonycorp.reservapp.User.application.CreateUser.CreateUserUseCase;
+import com.anthonycorp.reservapp.User.application.DeleteUser.DeleteUserUseCase;
 import com.anthonycorp.reservapp.User.application.GetAllUser.GetAllUserUseCase;
 import com.anthonycorp.reservapp.User.application.UpdateUser.UpdateUserUseCase;
 import com.anthonycorp.reservapp.User.domain.request.CreateUserDto;
@@ -25,6 +26,7 @@ public class UserController {
     private final CreateUserUseCase createUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final GetAllUserUseCase getAllUserUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
 
     @PostMapping()
     public ResponseEntity<?> createUser(@RequestBody @Valid CreateUserDto createUserDto) {
@@ -41,4 +43,11 @@ public class UserController {
         List<UserNameDto> users = getAllUserUseCase.execute();
         return ResponseEntity.ok(users);
     }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        deleteUserUseCase.execute(userId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

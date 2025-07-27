@@ -44,12 +44,13 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN");
                     http.requestMatchers(HttpMethod.POST, "/users").hasAnyRole("ADMIN", "PROVIDER", "CUSTOMER");
                     http.requestMatchers(HttpMethod.PATCH, "/users/{userId}").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/users/{userId}").hasRole("ADMIN");
 
                     // Services
-                    http.requestMatchers(HttpMethod.GET, "/services/**").hasAnyRole("CUSTOMER", "PROVIDER");
+                    http.requestMatchers(HttpMethod.GET, "/services/**").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN");
                     http.requestMatchers(HttpMethod.POST, "/services/**").hasRole("PROVIDER");
                     http.requestMatchers(HttpMethod.PATCH, "/services/**").hasRole("PROVIDER");
-                    http.requestMatchers(HttpMethod.DELETE, "/services/**").hasRole("PROVIDER");
+                    http.requestMatchers(HttpMethod.DELETE, "/services/**").hasAnyRole("PROVIDER", "ADMIN");
 
                     // Reservations
                     http.requestMatchers("/reservations/**").hasRole("CUSTOMER");
