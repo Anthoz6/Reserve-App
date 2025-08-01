@@ -29,11 +29,15 @@ Se implementó control de acceso a los endpoints utilizando **Spring Security** 
 | `/services/{serviceId}`                  | `DELETE` | `PROVIDER` (Dueño)   | Eliminar un servicio propio                                  |
 | `/services/provider/{providerId}`        | `GET`    | `CUSTOMER` Público  | Obtener todos los servicios de un proveedor específico       |
 | `/services`                              | `GET`    | `CUSTOMER` Público | Obtener todos los servicios disponibles                      |
-| `/reservations`                       | `POST`    | `CUSTOMER`| Hacer una reserva a un servicio |
+| `/reservations`                       | `POST`    | `CUSTOMER`| Permite al cliente crear una reserva para hoy con al menos 3 horas de antelación. |
 | `/reservations/me`                       | `GET`    | `CUSTOMER`| Ver las reservas hechas |                    |
 | `/provider/reservations` | `GET` | `PROVIDER`| Obtiene las reservas del proveedor autenticado, opcionalmente filtradas por estado. |
 | `/provider/reservations/{reservationId}/status` | `PUT`| `PROVIDER` |Actualiza el estado de una reserva específica de acuerdo con el ID de la reserva y el nuevo estado. 
 | `/provider/services/{serviceId}/status` | `PUT` | `ADMIN`| Actualiza el estado de un servicio específico vinculado al proveedor autenticado. |
+|`/reservations/{reservationId}` | `PATCH` | `CUSTOMER` | Permite al cliente editar la fecha y hora de la reserva si el estado es PENDING. |
+| `/reservations/{reservationId}` |`DELETE`| `CUSTOMER` | Permite al cliente eliminar una reserva si el estado es PENDING. |
+
+
 
 
 
