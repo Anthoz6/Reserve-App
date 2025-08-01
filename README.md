@@ -31,6 +31,11 @@ Se implementó control de acceso a los endpoints utilizando **Spring Security** 
 | `/services`                              | `GET`    | `CUSTOMER` Público | Obtener todos los servicios disponibles                      |
 | `/reservations`                       | `POST`    | `CUSTOMER`| Hacer una reserva a un servicio |
 | `/reservations/me`                       | `GET`    | `CUSTOMER`| Ver las reservas hechas |                    |
+| `/provider/reservations` | `GET` | `PROVIDER`| Obtiene las reservas del proveedor autenticado, opcionalmente filtradas por estado. |
+| `/provider/reservations/{reservationId}/status` | `PUT`| `PROVIDER` |Actualiza el estado de una reserva específica de acuerdo con el ID de la reserva y el nuevo estado. 
+| `/provider/services/{serviceId}/status` | `PUT` | `ADMIN`| Actualiza el estado de un servicio específico vinculado al proveedor autenticado. |
+
+
 
 
 Los accesos están protegidos con anotaciones como:
