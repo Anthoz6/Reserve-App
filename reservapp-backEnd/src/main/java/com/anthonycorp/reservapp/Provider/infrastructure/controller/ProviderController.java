@@ -2,7 +2,7 @@ package com.anthonycorp.reservapp.Provider.infrastructure.controller;
 
 import com.anthonycorp.reservapp.Reservation.application.GetProviderReservations.GetProviderReservationsUseCase;
 import com.anthonycorp.reservapp.Reservation.application.UpdateReservationStatus.UpdateReservationStatusUseCase;
-import com.anthonycorp.reservapp.Service.application.UpdateServiceStatus.UpdateServiceStatusUseCase; // Corregido
+import com.anthonycorp.reservapp.Service.application.UpdateServiceStatus.UpdateServiceStatusUseCase;
 import com.anthonycorp.reservapp.Reservation.domain.response.ProviderReservationDto;
 import com.anthonycorp.reservapp.Reservation.domain.status.ReservationStatus;
 import com.anthonycorp.reservapp.Service.domain.status.ServiceStatus;

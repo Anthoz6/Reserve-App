@@ -19,6 +19,9 @@ import com.anthonycorp.reservapp.User.infrastructure.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,11 @@ public class CreateReservationUseCaseImpl implements CreateReservationUseCase {
 
     @Override
     public ReservationResponseDto execute(String email, CreateReservationDto dto) {
+
+        if (dto.getDate().equals(LocalDate.now()) &&
+                dto.getTime().isBefore(LocalTime.now().plusHours(3))) {
+            throw new IllegalArgumentException("Reservations for today must be at least 3 hours in advance.");
+        }
 
         UserEntity customer = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("Customer not found"));
@@ -63,7 +71,7 @@ public class CreateReservationUseCaseImpl implements CreateReservationUseCase {
                 )
         );
 
-        // Send notification to provider
+        // Send notification to the provider
         ReservationNotificationRequestDto providerNotification = ReservationNotificationRequestDto.builder()
                 .recipientEmail(service.getProvider().getEmail())
                 .customerName(customer.getName())
