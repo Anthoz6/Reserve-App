@@ -1,7 +1,9 @@
 package com.anthonycorp.reservapp.Reservation.infrastructure.controller;
 
 import com.anthonycorp.reservapp.Reservation.application.CreateReservation.CreateReservationUseCase;
+import com.anthonycorp.reservapp.Reservation.application.DeleteReservation.DeleteReservationUseCase;
 import com.anthonycorp.reservapp.Reservation.application.GetMyReservations.GetMyReservationsUseCase;
+import com.anthonycorp.reservapp.Reservation.application.UpdateReservationDateTime.UpdateReservationDateTimeUseCase;
 import com.anthonycorp.reservapp.Reservation.domain.request.CreateReservationDto;
 import com.anthonycorp.reservapp.Reservation.domain.response.ReservationResponseDto;
 import jakarta.validation.Valid;
@@ -11,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -21,6 +25,8 @@ public class ReservationController {
 
     private final CreateReservationUseCase createReservationUseCase;
     private final GetMyReservationsUseCase getMyReservationsUseCase;
+    private final UpdateReservationDateTimeUseCase updateReservationDateTimeUseCase;
+    private final DeleteReservationUseCase deleteReservationUseCase;
 
     @PostMapping
     public ResponseEntity<ReservationResponseDto> createReservation(@Valid @RequestBody CreateReservationDto dto,
@@ -35,5 +41,25 @@ public class ReservationController {
         String email = authentication.getName();
         List<ReservationResponseDto> response = getMyReservationsUseCase.getReservationAsCustomer(email);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping("/{reservationId}")
+    public ResponseEntity<ReservationResponseDto> updateReservationDateTime(
+            @PathVariable Long reservationId,
+            @RequestParam LocalDate newDate,
+            @RequestParam LocalTime newTime,
+            Authentication authentication) {
+        String customerEmail = authentication.getName();
+        ReservationResponseDto response =  updateReservationDateTimeUseCase.execute(reservationId, newDate, newTime, customerEmail);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/{reservationId}")
+    public ResponseEntity<Void> deleteReservation(
+            @PathVariable Long reservationId,
+            Authentication authentication) {
+        String customerEmail = authentication.getName();
+        deleteReservationUseCase.execute(reservationId, customerEmail);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
