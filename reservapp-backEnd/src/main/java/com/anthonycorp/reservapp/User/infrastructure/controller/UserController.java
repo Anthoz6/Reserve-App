@@ -20,7 +20,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-@CrossOrigin(origins = "*")
 public class UserController {
 
     private final CreateUserUseCase createUserUseCase;

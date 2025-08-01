@@ -2,6 +2,7 @@ package com.anthonycorp.reservapp.Service.infrastructure.mapper;
 
 import com.anthonycorp.reservapp.Service.domain.request.CreateServiceDto;
 import com.anthonycorp.reservapp.Service.domain.response.ServiceResponseDto;
+import com.anthonycorp.reservapp.Service.domain.status.ServiceStatus;
 import com.anthonycorp.reservapp.Service.infrastructure.model.ServiceEntity;
 import com.anthonycorp.reservapp.User.infrastructure.model.UserEntity;
 import org.mapstruct.Mapper;

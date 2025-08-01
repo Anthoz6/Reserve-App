@@ -1,7 +1,9 @@
 package com.anthonycorp.reservapp.Reservation.application.CreateReservation;
 
-import com.anthonycorp.reservapp.Mail.application.MailNotification.MailNotificationUseCase;
+import com.anthonycorp.reservapp.Mail.application.ConfirmationMailNotification.ConfirmationMailNotificationUseCase;
+import com.anthonycorp.reservapp.Mail.application.ReservationMailNotification.ReservationMailNotificationUseCase;
 import com.anthonycorp.reservapp.Mail.domain.Request.ReservationConfirmationDto;
+import com.anthonycorp.reservapp.Mail.domain.Request.ReservationNotificationRequestDto;
 import com.anthonycorp.reservapp.Reservation.domain.request.CreateReservationDto;
 import com.anthonycorp.reservapp.Reservation.domain.response.ReservationResponseDto;
 import com.anthonycorp.reservapp.Reservation.domain.status.ReservationStatus;
@@ -26,7 +28,8 @@ public class CreateReservationUseCaseImpl implements CreateReservationUseCase {
     private final ServiceRepository serviceRepository;
     private final ReservationRepository reservationRepository;
     private final ReservationMapper reservationMapper;
-    private final MailNotificationUseCase mailNotificationUseCase;
+    private final ConfirmationMailNotificationUseCase confirmationMailNotificationUseCase;
+    private final ReservationMailNotificationUseCase reservationMailNotificationUseCase;
 
     @Override
     public ReservationResponseDto execute(String email, CreateReservationDto dto) {
@@ -49,7 +52,7 @@ public class CreateReservationUseCaseImpl implements CreateReservationUseCase {
                 .build();
 
         // Send mail
-        mailNotificationUseCase.sendReservationConfirmation(
+        confirmationMailNotificationUseCase.sendReservationConfirmation(
                 new ReservationConfirmationDto(
                         customer.getName(),
                         customer.getEmail(),
@@ -59,6 +62,17 @@ public class CreateReservationUseCaseImpl implements CreateReservationUseCase {
                         service.getTitle()
                 )
         );
+
+        // Send notification to provider
+        ReservationNotificationRequestDto providerNotification = ReservationNotificationRequestDto.builder()
+                .recipientEmail(service.getProvider().getEmail())
+                .customerName(customer.getName())
+                .providerName(service.getProvider().getName())
+                .serviceName(service.getTitle())
+                .status(ReservationStatus.PENDING)
+                .build();
+
+        reservationMailNotificationUseCase.sendReservationConfirmationToProvider(providerNotification);
 
         return reservationMapper.toDto(reservationRepository.save(reservation));
     }

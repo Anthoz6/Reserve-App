@@ -1,4 +1,4 @@
-package com.anthonycorp.reservapp.Mail.application.MailNotification;
+package com.anthonycorp.reservapp.Mail.application.ConfirmationMailNotification;
 
 import com.anthonycorp.reservapp.Mail.domain.Request.ReservationConfirmationDto;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MailNotificationUseCaseImpl implements MailNotificationUseCase {
+public class ConfirmationMailNotificationUseCaseImpl implements ConfirmationMailNotificationUseCase {
 
     private final JavaMailSender mailSender;
 
@@ -19,12 +19,12 @@ public class MailNotificationUseCaseImpl implements MailNotificationUseCase {
         String messageBody = """
                 Hello %s,
         
-                Your reservation has been successfully confirmed.
+                Your reservation has been send.
         
                 📅 Date: %s
                 🕒 Time: %s
                 🏷️ Service: %s
-                🔢 Reservation number: %d
+                🔢 Reservation number: %s
         
                 Thank you for choosing ReservApp!
                 """.formatted(

@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -37,6 +38,8 @@ public class ReservationEntity {
     private LocalDate date;
 
     private LocalTime time;
+
+    private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;

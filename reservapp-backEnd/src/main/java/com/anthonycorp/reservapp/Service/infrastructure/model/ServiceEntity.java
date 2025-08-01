@@ -1,5 +1,6 @@
 package com.anthonycorp.reservapp.Service.infrastructure.model;
 
+import com.anthonycorp.reservapp.Service.domain.status.ServiceStatus;
 import com.anthonycorp.reservapp.User.infrastructure.model.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,4 +27,9 @@ public class ServiceEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "provider_id")
     private UserEntity provider;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ServiceStatus status = ServiceStatus.ACTIVE; // Default status is ACTIVE
+
 }

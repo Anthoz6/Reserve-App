@@ -54,20 +54,9 @@ public class ReservappApplication {
 					.roleEntity(roleEntityAdmin)
 					.build();
 
-			UserEntity userEntityCustomer = UserEntity.builder()
-					.name("john doe")
-					.email("example@gmail.com")
-					.password("$2a$10$wWROayOlaj4DR8Aj4LwUl.UPi7gxNmLJKhL1m/z2B8PMt7s2EzQOq")
-					.enabled(true)
-					.accountNonExpired(true)
-					.accountNonLocked(true)
-					.credentialsNonExpired(true)
-					.roleEntity(roleEntityCustomer)
-					.build();
-
 			UserEntity userEntityProvider = UserEntity.builder()
 					.name("taylor")
-					.email("taylor@gmail.com")
+					.email("sucarita10@gmail.com")
 					.password("$2a$10$wWROayOlaj4DR8Aj4LwUl.UPi7gxNmLJKhL1m/z2B8PMt7s2EzQOq")
 					.enabled(true)
 					.accountNonExpired(true)
@@ -87,7 +76,7 @@ public class ReservappApplication {
 					.roleEntity(roleEntityCustomer)
 					.build();
 
-			userRepository.saveAll(List.of(userEntityAdmin, userEntityProvider, userEntityCustomer, userEntityAnthony));
+			userRepository.saveAll(List.of(userEntityAdmin, userEntityProvider, userEntityAnthony));
 		};
 	}
 }

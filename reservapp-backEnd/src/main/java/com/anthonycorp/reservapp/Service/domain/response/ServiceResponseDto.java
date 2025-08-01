@@ -14,4 +14,5 @@ public class ServiceResponseDto {
     private Double price;
     private String providerName;
     private Long providerId;
+    private String status;
 }

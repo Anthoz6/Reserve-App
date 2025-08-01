@@ -2,6 +2,7 @@ package com.anthonycorp.reservapp.Service.application.CreateService;
 
 import com.anthonycorp.reservapp.Service.domain.request.CreateServiceDto;
 import com.anthonycorp.reservapp.Service.domain.response.ServiceResponseDto;
+import com.anthonycorp.reservapp.Service.domain.status.ServiceStatus;
 import com.anthonycorp.reservapp.Service.infrastructure.mapper.ServiceMapper;
 import com.anthonycorp.reservapp.Service.infrastructure.model.ServiceEntity;
 import com.anthonycorp.reservapp.Service.infrastructure.repository.ServiceRepository;
@@ -36,6 +37,7 @@ public class CreateServiceUseCaseImpl implements CreateServiceUseCase {
                 .description(createServiceDto.getDescription())
                 .price(createServiceDto.getPrice())
                 .provider(provider)
+                .status(ServiceStatus.ACTIVE) // Default to ACTIVE if not provided
                 .build();
 
         return serviceMapper.toDto(serviceRepository.save(serviceEntity));

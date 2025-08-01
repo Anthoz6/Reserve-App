@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/services")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@RequestMapping("/services")
 public class ServiceController {
 
     private final CreateServiceUseCase createServiceUseCase;

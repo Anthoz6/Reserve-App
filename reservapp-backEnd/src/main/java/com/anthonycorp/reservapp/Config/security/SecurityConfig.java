@@ -54,6 +54,10 @@ public class SecurityConfig {
 
                     // Reservations
                     http.requestMatchers("/reservations/**").hasRole("CUSTOMER");
+
+                    // Provider Reservations and Service Management
+                    http.requestMatchers("/provider/reservations/**").hasRole("PROVIDER");
+                    http.requestMatchers("/provider/services/**").hasRole("ADMIN");
                     
                     http.anyRequest().denyAll();
                 })
