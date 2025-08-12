@@ -6,5 +6,5 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public interface UpdateReservationDateTimeUseCase {
-    ReservationResponseDto execute(Long reservationId, LocalDate newDate, LocalTime newTime, String customerEmail);
+    ReservationResponseDto execute(Long reservationId, LocalDate date, LocalTime time, String customerEmail);
 }
