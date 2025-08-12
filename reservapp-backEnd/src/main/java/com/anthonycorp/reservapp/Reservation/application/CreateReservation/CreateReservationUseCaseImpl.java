@@ -10,6 +10,7 @@ import com.anthonycorp.reservapp.Reservation.domain.status.ReservationStatus;
 import com.anthonycorp.reservapp.Reservation.infrastructure.mapper.ReservationMapper;
 import com.anthonycorp.reservapp.Reservation.infrastructure.model.ReservationEntity;
 import com.anthonycorp.reservapp.Reservation.infrastructure.repository.ReservationRepository;
+import com.anthonycorp.reservapp.Service.domain.status.ServiceStatus;
 import com.anthonycorp.reservapp.Service.infrastructure.exception.ServiceNotFoundException;
 import com.anthonycorp.reservapp.Service.infrastructure.model.ServiceEntity;
 import com.anthonycorp.reservapp.Service.infrastructure.repository.ServiceRepository;
@@ -37,10 +38,7 @@ public class CreateReservationUseCaseImpl implements CreateReservationUseCase {
     @Override
     public ReservationResponseDto execute(String email, CreateReservationDto dto) {
 
-        if (dto.getDate().equals(LocalDate.now()) &&
-                dto.getTime().isBefore(LocalTime.now().plusHours(3))) {
-            throw new IllegalArgumentException("Reservations for today must be at least 3 hours in advance.");
-        }
+        validateReservationDateAndTime(dto.getDate(), dto.getTime());
 
         UserEntity customer = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("Customer not found"));
@@ -48,18 +46,28 @@ public class CreateReservationUseCaseImpl implements CreateReservationUseCase {
         ServiceEntity service = serviceRepository.findById(dto.getServiceId())
                 .orElseThrow(() -> new ServiceNotFoundException("Service not found"));
 
+        if (!service.getStatus().equals(ServiceStatus.ACTIVE)) {
+            throw new IllegalStateException("The service is not active. Unable to create a reservation.");
+        }
+
+        // Get provider details
         UserEntity provider = service.getProvider();
 
+        // Create the reservation entity
         ReservationEntity reservation = ReservationEntity.builder()
                 .customer(customer)
                 .provider(provider)
                 .service(service)
                 .date(dto.getDate())
                 .time(dto.getTime())
+                .createdAt(dto.getCreatedAt())
                 .status(ReservationStatus.PENDING)
                 .build();
 
-        // Send mail
+        // Save the reservation
+        reservation = reservationRepository.save(reservation);
+
+        // Send confirmation email
         confirmationMailNotificationUseCase.sendReservationConfirmation(
                 new ReservationConfirmationDto(
                         customer.getName(),
@@ -72,16 +80,31 @@ public class CreateReservationUseCaseImpl implements CreateReservationUseCase {
         );
 
         // Send notification to the provider
-        ReservationNotificationRequestDto providerNotification = ReservationNotificationRequestDto.builder()
-                .recipientEmail(service.getProvider().getEmail())
-                .customerName(customer.getName())
-                .providerName(service.getProvider().getName())
-                .serviceName(service.getTitle())
-                .status(ReservationStatus.PENDING)
-                .build();
+        reservationMailNotificationUseCase.sendReservationConfirmationToProvider(
+                ReservationNotificationRequestDto.builder()
+                        .recipientEmail(provider.getEmail())
+                        .customerName(customer.getName())
+                        .providerName(provider.getName())
+                        .serviceName(service.getTitle())
+                        .status(ReservationStatus.PENDING)
+                        .build()
+        );
 
-        reservationMailNotificationUseCase.sendReservationConfirmationToProvider(providerNotification);
+        return reservationMapper.toDto(reservation);
+    }
 
-        return reservationMapper.toDto(reservationRepository.save(reservation));
+    private void validateReservationDateAndTime(LocalDate date, LocalTime time) {
+        LocalDate today = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+
+        // Case 2: Ensure the date is not in the past
+        if (date.isBefore(today)) {
+            throw new IllegalArgumentException("Reservation date cannot be in the past.");
+        }
+
+        // Case 1: Ensure reservations for the same day are at least 3 hours in advance
+        if (date.equals(today) && time.isBefore(currentTime.plusHours(3))) {
+            throw new IllegalArgumentException("Reservations for the same day must be at least 3 hours in advance.");
+        }
     }
 }
