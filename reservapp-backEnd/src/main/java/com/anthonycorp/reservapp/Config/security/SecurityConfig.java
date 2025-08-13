@@ -53,7 +53,9 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.DELETE, "/services/**").hasAnyRole("PROVIDER", "ADMIN");
 
                     // Reservations
-                    http.requestMatchers("/reservations/**").hasRole("CUSTOMER");
+                    http.requestMatchers(HttpMethod.GET, "/reservations/**").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/reservations/**").hasRole("CUSTOMER");
+                    http.requestMatchers(HttpMethod.PATCH, "/reservations/**").hasRole("CUSTOMER");
 
                     // Provider Reservations and Service Management
                     http.requestMatchers("/provider/reservations/**").hasRole("PROVIDER");

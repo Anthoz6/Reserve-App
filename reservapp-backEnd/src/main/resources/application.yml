@@ -13,7 +13,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
-
 mail:
   host: ${MAIL_HOST}
   port: ${MAIL_PORT}
