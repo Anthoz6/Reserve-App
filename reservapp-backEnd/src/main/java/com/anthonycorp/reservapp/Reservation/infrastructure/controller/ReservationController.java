@@ -5,6 +5,7 @@ import com.anthonycorp.reservapp.Reservation.application.DeleteReservation.Delet
 import com.anthonycorp.reservapp.Reservation.application.GetMyReservations.GetMyReservationsUseCase;
 import com.anthonycorp.reservapp.Reservation.application.UpdateReservationDateTime.UpdateReservationDateTimeUseCase;
 import com.anthonycorp.reservapp.Reservation.domain.request.CreateReservationDto;
+import com.anthonycorp.reservapp.Reservation.domain.request.UpdateReservationDateTimeDto;
 import com.anthonycorp.reservapp.Reservation.domain.response.ReservationResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,11 +47,10 @@ public class ReservationController {
     @PatchMapping("/{reservationId}")
     public ResponseEntity<ReservationResponseDto> updateReservationDateTime(
             @PathVariable Long reservationId,
-            @RequestParam LocalDate newDate,
-            @RequestParam LocalTime newTime,
+            @Valid @RequestBody UpdateReservationDateTimeDto dto,
             Authentication authentication) {
         String customerEmail = authentication.getName();
-        ReservationResponseDto response =  updateReservationDateTimeUseCase.execute(reservationId, newDate, newTime, customerEmail);
+        ReservationResponseDto response =  updateReservationDateTimeUseCase.execute(reservationId, dto.getDate(), dto.getTime(), customerEmail);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
